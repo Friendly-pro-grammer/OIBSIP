@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Groove Cellar — Vinyl, CDs & Audiophile Gear</title>
+<meta name="description" content="Groove Cellar — a small-batch record shop for vinyl, CDs, IEMs, portable players and hi-fi headphones." />
+<style>
+  /* ---------- Reset ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+
+  /* ---------- Palette & Type ---------- */
+  :root {
+    --cream:   #f3e9d2;
+    --paper:   #ece0c4;
+    --oxblood: #7a2a2a;
+    --mustard: #d9a441;
+    --forest:  #3a5a40;
+    --ink:     #2b1d12;
+    --line:    #b89a6a;
+    --serif:   Georgia, "Times New Roman", serif;
+    --mono:    "Courier New", ui-monospace, monospace;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+    background:
+      repeating-linear-gradient(0deg, rgba(43,29,18,.025) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(90deg, rgba(43,29,18,.02) 0 1px, transparent 1px 6px),
+      var(--cream);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
+  h1 { font-size: clamp(2.4rem, 5.2vw, 4rem); }
+  h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); }
+  h3 { font-size: 1.15rem; }
+  p  { font-size: 1rem; }
+
+  .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .eyebrow {
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .22em;
+    font-size: .78rem;
+    color: var(--oxblood);
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(243,233,210,.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--serif); font-weight: 700; font-size: 1.15rem;
+    color: var(--ink);
+  }
+  .brand-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, var(--mustard) 0 3px, var(--ink) 3px 7px, var(--ink) 7px 10px, var(--ink) 10px);
+    border: 1px solid var(--ink);
+    flex-shrink: 0;
+  }
+  .brand small { font-family: var(--mono); font-weight: 400; font-size: .7rem; color: var(--oxblood); letter-spacing: .18em; text-transform: uppercase; margin-left: 4px; }
+  .nav ul { display: flex; gap: 28px; list-style: none; }
+  .nav a {
+    font-family: var(--mono); font-size: .85rem; text-transform: uppercase;
+    letter-spacing: .18em; padding: 6px 0; border-bottom: 2px solid transparent;
+    transition: border-color .25s ease, color .25s ease;
+  }
+  .nav a:hover { border-color: var(--oxblood); color: var(--oxblood); }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 72px 0 88px; }
+  .hero-grid {
+    display: grid; gap: 56px;
+    grid-template-columns: 1.15fr .85fr; align-items: center;
+  }
+  .hero h1 { color: var(--ink); margin-top: 14px; }
+  .hero h1 em { color: var(--oxblood); font-style: italic; }
+  .hero p.lead {
+    margin-top: 18px; max-width: 46ch;
+    color: #4a3a26; font-size: 1.08rem;
+  }
+  .cta-row { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 22px;
+    font-family: var(--mono); font-size: .82rem;
+    text-transform: uppercase; letter-spacing: .2em;
+    border-radius: 999px;
+    transition: transform .25s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
+  }
+  .btn-primary {
+    background: var(--oxblood); color: var(--cream);
+    box-shadow: 0 4px 0 var(--ink);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--ink); }
+  .btn-ghost {
+    background: transparent; color: var(--ink);
+    border: 1.5px solid var(--ink);
+  }
+  .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+  /* Spinning vinyl */
+  .vinyl-wrap {
+    position: relative; aspect-ratio: 1; max-width: 420px; margin: 0 auto;
+  }
+  .vinyl {
+    position: absolute; inset: 0; border-radius: 50%;
+    background:
+      repeating-radial-gradient(circle at 50% 50%, #1a1108 0 2px, #0d0805 2px 4px),
+      #1a1108;
+    box-shadow:
+      inset 0 0 60px rgba(0,0,0,.7),
+      0 18px 40px rgba(43,29,18,.35);
+    animation: spin 9s linear infinite;
+  }
+  .vinyl::after {
+    content: "";
+    position: absolute; inset: 35%; border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, var(--mustard) 0 60%, var(--oxblood) 60% 100%);
+    border: 2px solid var(--ink);
+  }
+  .vinyl::before {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--cream); transform: translate(-50%,-50%);
+    z-index: 2;
+  }
+  .sleeve {
+    position: absolute; inset: -6%; border: 1.5px solid var(--ink);
+    border-radius: 14px; transform: rotate(-6deg);
+    background:
+      repeating-linear-gradient(45deg, rgba(122,42,42,.08) 0 6px, transparent 6px 14px),
+      var(--paper);
+    z-index: -1;
+    box-shadow: 0 20px 30px rgba(43,29,18,.18);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Section frame ---------- */
+  section { padding: 80px 0; }
+  .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
+  .section-head h2 { max-width: 22ch; }
+  .section-head p { max-width: 38ch; color: #4a3a26; }
+
+  .divider {
+    border: 0; border-top: 1px dashed var(--line);
+    margin: 0;
+  }
+
+  /* ---------- Categories ---------- */
+  .cats { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .cat-grid {
+    display: grid; gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 10px;
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    position: relative;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 14px 0 -6px var(--oxblood); border-color: var(--oxblood); }
+  .card .num { font-family: var(--mono); font-size: .75rem; color: var(--oxblood); letter-spacing: .2em; }
+  .card h3 { color: var(--ink); }
+  .card p { color: #5a4630; font-size: .94rem; }
+  .badge {
+    display: inline-block; margin-top: 6px;
+    font-family: var(--mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .2em;
+    color: var(--forest);
+  }
+
+  .icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    display: grid; place-items: center;
+    background: var(--mustard);
+    font-family: var(--serif); font-weight: 700;
+  }
+
+  /* ---------- About ---------- */
+  .about-grid {
+    display: grid; gap: 56px;
+    grid-template-columns: 1fr 1fr; align-items: center;
+  }
+  .about-frame {
+    border: 1.5px solid var(--ink);
+    padding: 14px;
+    border-radius: 6px;
+    background: var(--paper);
+    position: relative;
+  }
+  .about-frame::before {
+    content: ""; position: absolute; inset: 6px;
+    border: 1px dashed var(--line); border-radius: 4px; pointer-events: none;
+  }
+  .about-frame .inner {
+    padding: 28px;
+    background:
+      repeating-linear-gradient(0deg, rgba(43,29,18,.04) 0 1px, transparent 1px 6px),
+      var(--cream);
+    border-radius: 4px;
+  }
+  .stats {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 28px;
+  }
+  .stat { border-top: 1px solid var(--line); padding-top: 12px; }
+  .stat b { font-family: var(--serif); font-size: 1.8rem; display: block; color: var(--oxblood); }
+  .stat span { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .18em; color: #5a4630; }
+
+  /* ---------- Testimonials ---------- */
+  .quotes { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .quote-grid {
+    display: grid; gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .quote {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 26px;
+    position: relative;
+  }
+  .quote::before {
+    content: "“"; position: absolute; top: -10px; left: 16px;
+    font-family: var(--serif); font-size: 4rem; color: var(--oxblood); line-height: 1;
+  }
+  .quote p { font-style: italic; color: #3a2c1a; }
+  .quote footer {
+    margin-top: 16px; font-family: var(--mono);
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .18em; color: var(--forest);
+  }
+
+  /* ---------- Newsletter ---------- */
+  .news {
+    background: var(--oxblood); color: var(--cream);
+  }
+  .news .wrap {
+    display: grid; grid-template-columns: 1.1fr .9fr;
+    gap: 40px; align-items: center;
+  }
+  .news h2 { color: var(--cream); }
+  .news p { color: #f0dcb8; margin-top: 10px; max-width: 42ch; }
+  .news form {
+    display: flex; gap: 10px; background: var(--cream);
+    padding: 8px; border-radius: 999px; border: 1.5px solid var(--ink);
+  }
+  .news input {
+    flex: 1; min-width: 0; border: 0; background: transparent;
+    padding: 10px 14px; font: inherit; color: var(--ink); outline: none;
+    font-family: var(--mono); font-size: .9rem;
+  }
+  .news button {
+    background: var(--ink); color: var(--cream);
+    padding: 10px 20px; border-radius: 999px;
+    font-family: var(--mono); text-transform: uppercase; letter-spacing: .2em; font-size: .78rem;
+    transition: background .25s;
+  }
+  .news button:hover { background: var(--forest); }
+
+  /* ---------- Footer ---------- */
+  footer.site {
+    background: var(--ink); color: #d8c8a8;
+    padding: 60px 0 28px;
+  }
+  .foot-grid {
+    display: grid; gap: 40px;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  }
+  footer.site h4 {
+    font-family: var(--mono); text-transform: uppercase; letter-spacing: .22em;
+    font-size: .8rem; color: var(--mustard); margin-bottom: 14px;
+  }
+  footer.site a { display: block; padding: 4px 0; color: #d8c8a8; transition: color .2s; font-size: .95rem; }
+  footer.site a:hover { color: var(--mustard); }
+  footer.site p { font-size: .9rem; color: #b9a07a; }
+  .foot-bottom {
+    margin-top: 48px; padding-top: 20px;
+    border-top: 1px dashed #5a4630;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .18em; color: #9a8466;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .quote-grid { grid-template-columns: 1fr 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 720px) {
+    .nav-inner { flex-direction: column; gap: 12px; padding: 14px 0; }
+    .nav ul { gap: 18px; flex-wrap: wrap; justify-content: center; }
+    .hero { padding: 48px 0 64px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .vinyl-wrap { max-width: 280px; }
+    section { padding: 56px 0; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .quote-grid { grid-template-columns: 1fr; }
+    .news .wrap { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .brand small { display: none; }
+  }
+  @media (max-width: 460px) {
+    .cat-grid { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-dot" aria-hidden="true"></span>
+      Groove Cellar <small>Est. 1974</small>
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#stories">Stories</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Side A · Track 01</span>
+        <h1>Sound, the way it was <em>meant</em> to be played.</h1>
+        <p class="lead">
+          A small-batch record shop for the patient ear — first-press vinyl, remastered CDs,
+          tube-warmed headphones, and pocket-sized DAPs hand-picked from the world's best makers.
+        </p>
+        <div class="cta-row">
+          <a href="#shop" class="btn btn-primary">Browse the crates →</a>
+          <a href="#about" class="btn btn-ghost">Our story</a>
+        </div>
+      </div>
+      <div class="vinyl-wrap" aria-hidden="true">
+        <div class="sleeve"></div>
+        <div class="vinyl"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CATEGORIES -->
+  <section id="shop" class="cats">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">The Collection</span>
+          <h2>Four shelves, hand-stocked weekly.</h2>
+        </div>
+        <p>From rare jazz pressings to balanced-armature monitors — every item is auditioned in-store before it earns a spot on the shelf.</p>
+      </div>
+
+      <div class="cat-grid">
+        <article class="card">
+          <div class="icon">♪</div>
+          <span class="num">No. 01</span>
+          <h3>Vinyl & CDs</h3>
+          <p>First pressings, audiophile reissues, and a deep used bin sorted by mood — not genre.</p>
+          <span class="badge">300+ titles</span>
+        </article>
+        <article class="card">
+          <div class="icon">∞</div>
+          <span class="num">No. 02</span>
+          <h3>In-Ear Monitors</h3>
+          <p>Hybrid drivers, planar IEMs, and custom-fit pieces from Moondrop, ThieAudio, and 64 Audio.</p>
+          <span class="badge">Demo bar open</span>
+        </article>
+        <article class="card">
+          <div class="icon">▶</div>
+          <span class="num">No. 03</span>
+          <h3>Portable Players</h3>
+          <p>Pocket DAPs and DAC dongles — from FiiO and iBasso to a small wall of refurbished iPods.</p>
+          <span class="badge">Trade-ins welcome</span>
+        </article>
+        <article class="card">
+          <div class="icon">Ω</div>
+          <span class="num">No. 04</span>
+          <h3>Hi-Fi Headphones</h3>
+          <p>Open-backs, planar magnetics, and tube amps you can audition on the listening sofa.</p>
+          <span class="badge">Listening room</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div>
+        <span class="eyebrow">Side B · About</span>
+        <h2>A shop, a sofa, and the slow art of listening.</h2>
+        <p style="margin-top:16px; color:#4a3a26;">
+          Groove Cellar opened in the basement of a Brooklyn brownstone in 1974 with one
+          turntable, two armchairs, and a stack of Blue Note 45s. Half a century later, the
+          armchairs are still here. So is the philosophy: music is something you sit down for.
+        </p>
+        <p style="margin-top:14px; color:#4a3a26;">
+          We don't chase trends. We hunt for gear and pressings that hold up through three
+          owners, two formats, and the test of a Tuesday afternoon.
+        </p>
+        <div class="stats">
+          <div class="stat"><b>51</b><span>Years on the block</span></div>
+          <div class="stat"><b>12k</b><span>Records on the shelves</span></div>
+          <div class="stat"><b>3</b><span>Listening rooms</span></div>
+        </div>
+      </div>
+      <div class="about-frame">
+        <div class="inner">
+          <span class="eyebrow">Now Spinning</span>
+          <h3 style="margin-top:8px; font-size:1.4rem;">Bill Evans — Sunday at the Village Vanguard</h3>
+          <p style="margin-top:10px; color:#5a4630; font-style: italic;">
+            "If you've only heard this on streaming, you haven't heard it. The 180g reissue
+            puts you three feet from the bass."
+          </p>
+          <p style="margin-top:14px; font-family: var(--mono); font-size:.8rem; text-transform:uppercase; letter-spacing:.18em; color: var(--oxblood);">
+            Spinning on the Thorens · 6pm – close
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="stories" class="quotes">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Liner Notes</span>
+          <h2>What the regulars say.</h2>
+        </div>
+        <p>Five-decade-old shop, two-decade-old customers, one-week-old converts — all welcome on the sofa.</p>
+      </div>
+      <div class="quote-grid">
+        <blockquote class="quote">
+          <p>Walked in for a cable, walked out three hours later with a Denafrips DAC and a new favorite Coltrane bootleg. No regrets.</p>
+          <footer>— Marisol K., Brooklyn</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <p>The only shop where the staff actually wants you to <em>sit down</em> and listen before you spend a dollar.</p>
+          <footer>— Theo R., visiting from Tokyo</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <p>They restored my dad's 1978 Marantz and threw in a stack of jazz 45s. This place is a love letter to the format.</p>
+          <footer>— Devon A., regular since '09</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="news" id="contact">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow" style="color:var(--mustard);">The B-Side Bulletin</span>
+        <h2>New arrivals, in your mailbox.</h2>
+        <p>One short letter a month — fresh pressings, listening-room sessions, and the occasional vintage gear drop.</p>
+      </div>
+      <form onsubmit="event.preventDefault()">
+        <input type="email" placeholder="you@somewhere.fm" aria-label="Email address" />
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="color: var(--cream); font-size:1.2rem;">
+          <span class="brand-dot" aria-hidden="true"></span>
+          Groove Cellar
+        </div>
+        <p style="margin-top:14px; max-width: 32ch;">
+          228 Atlantic Ave, Basement<br/>
+          Brooklyn, NY 11201<br/>
+          Open Wed–Sun · Noon till the last record finishes.
+        </p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#shop">Vinyl & CDs</a>
+        <a href="#shop">IEMs</a>
+        <a href="#shop">Players</a>
+        <a href="#shop">Headphones</a>
+      </div>
+      <div>
+        <h4>The Cellar</h4>
+        <a href="#about">About</a>
+        <a href="#stories">Stories</a>
+        <a href="#">Listening Room</a>
+        <a href="#">Trade-Ins</a>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Discogs</a>
+        <a href="#">Bandcamp</a>
+        <a href="#">RSS</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 1974–2026 Groove Cellar · All sides reserved</span>
+      <span>Pressed in Brooklyn · 33 ⅓ rpm</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
