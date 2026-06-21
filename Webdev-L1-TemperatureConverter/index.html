@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>TempFlux | Premium Interactive Temperature Converter</title>
+  <meta name="description" content="A beautiful, interactive, and real-time temperature converter between Celsius, Fahrenheit, and Kelvin featuring dynamic theme switching and absolute zero validation.">
+  <meta name="keywords" content="temperature converter, celsius, fahrenheit, kelvin, temperature, web app, interactive converter">
+  <meta name="author" content="Antigravity AI">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌡️</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Decorative Animated Blobs -->
+  <div class="blob-wrapper">
+    <div class="blob blob-1" id="blob-1"></div>
+    <div class="blob blob-2" id="blob-2"></div>
+    <div class="blob blob-3" id="blob-3"></div>
+  </div>
+
+  <!-- Header & Utility Controls -->
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-icon">🌡️</span>
+      <span class="logo-text">TempFlux</span>
+    </div>
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light mode">
+      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+      </svg>
+      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="app-container">
+    <section class="converter-card" id="converter-card">
+      
+      <!-- Input Section -->
+      <div class="input-group">
+        <div class="input-field-container">
+          <input 
+            type="text" 
+            id="temp-input" 
+            class="temp-input" 
+            placeholder=" " 
+            autocomplete="off" 
+            inputmode="decimal"
+            required
+            aria-describedby="error-message"
+          >
+          <label for="temp-input" class="floating-label">Enter Temperature</label>
+          <button id="clear-btn" class="clear-btn" aria-label="Clear input" type="button">&times;</button>
+        </div>
+        
+        <!-- Validation Error Message -->
+        <div id="error-message" class="error-message" role="alert">
+          <span class="error-icon">⚠️</span>
+          <span class="error-text"></span>
+        </div>
+      </div>
+
+      <!-- Input Unit Selector (Segmented Tab Control) -->
+      <div class="unit-selector-container">
+        <span class="section-label">Source Unit</span>
+        <div class="segmented-control" role="radiogroup" aria-label="Temperature Source Unit">
+          <input type="radio" name="source-unit" id="unit-celsius" value="C" checked>
+          <label for="unit-celsius" class="tab-label">
+            <span class="unit-symbol">°C</span>
+            <span class="unit-name">Celsius</span>
+          </label>
+
+          <input type="radio" name="source-unit" id="unit-fahrenheit" value="F">
+          <label for="unit-fahrenheit" class="tab-label">
+            <span class="unit-symbol">°F</span>
+            <span class="unit-name">Fahrenheit</span>
+          </label>
+
+          <input type="radio" name="source-unit" id="unit-kelvin" value="K">
+          <label for="unit-kelvin" class="tab-label">
+            <span class="unit-symbol">K</span>
+            <span class="unit-name">Kelvin</span>
+          </label>
+          
+          <div class="sliding-tab-glider"></div>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="actions-container">
+        <button id="convert-btn" class="convert-btn">
+          <span>Convert Temperature</span>
+          <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Temperature Gauge Visualizer -->
+      <div class="gauge-section">
+        <div class="gauge-container">
+          <div class="gauge-track">
+            <div id="gauge-fill" class="gauge-fill"></div>
+            <div id="gauge-glow" class="gauge-glow"></div>
+          </div>
+          <div class="gauge-labels">
+            <span class="gauge-label-min">Freezing</span>
+            <span id="gauge-value-display" class="gauge-value-display">0% Heat</span>
+            <span class="gauge-label-max">Boiling</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Display Section -->
+      <div class="outputs-grid">
+        <!-- Output Card 1 -->
+        <div class="output-card" id="output-card-1">
+          <div class="output-header">
+            <span class="output-unit-title" id="output-title-1">Fahrenheit</span>
+            <span class="output-unit-badge" id="output-badge-1">°F</span>
+          </div>
+          <div class="output-value-container">
+            <span class="output-val" id="output-val-1">--</span>
+          </div>
+          <div class="output-formula" id="output-formula-1">
+            Formula: (C × 9/5) + 32
+          </div>
+        </div>
+
+        <!-- Output Card 2 -->
+        <div class="output-card" id="output-card-2">
+          <div class="output-header">
+            <span class="output-unit-title" id="output-title-2">Kelvin</span>
+            <span class="output-unit-badge" id="output-badge-2">K</span>
+          </div>
+          <div class="output-value-container">
+            <span class="output-val" id="output-val-2">--</span>
+          </div>
+          <div class="output-formula" id="output-formula-2">
+            Formula: C + 273.15
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Designed with absolute precision. &copy; 2026 TempFlux.</p>
+  </footer>
+
+  <!-- Script -->
+  <script src="app.js"></script>
+</body>
+</html>
