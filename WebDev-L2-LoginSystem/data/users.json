@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "mqqqcuet1rsf2x",
+    "username": "TestHero",
+    "email": "test@quest.com",
+    "password": "$2a$10$tumZgiF1ZHvdJLVtemkNB.w9HhrS0qC1C4Zmo2o23KvgzQI5MTvPq",
+    "createdAt": "2026-06-23T14:19:00.725Z"
+  },
+  {
+    "id": "mqqqelhesf5fqa",
+    "username": "temp@gmail.com",
+    "email": "temp@gmail.com",
+    "password": "$2a$10$gsmcW5CO86rCJHMAGYi/1OwBkO.yBv93DQ8nYc3fNShcrWEWT7sum",
+    "createdAt": "2026-06-23T14:20:22.466Z"
+  }
+]

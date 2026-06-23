@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your Quest Auth dashboard — track your progress, earn badges, and level up!" />
+  <title>Dashboard — Quest Auth</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Floating background shapes -->
+  <div class="bg-decor">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
+  <!-- Confetti container (for login celebration) -->
+  <div class="confetti-container" id="confetti-container"></div>
+
+  <!-- Top bar -->
+  <nav class="topbar" id="topbar">
+    <div class="topbar-brand">
+      <span class="brand-icon">🏰</span>
+      <span>Quest Auth</span>
+    </div>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <div class="avatar" id="user-avatar">?</div>
+        <span id="user-chip-name">Hero</span>
+      </div>
+      <button class="btn-logout" id="btn-logout">
+        <span>🚪</span> Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- Dashboard content -->
+  <main class="dashboard" id="dashboard-content" style="display:none;">
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <p class="welcome-text">Welcome back,</p>
+      <h2>
+        <span id="hero-username">Hero</span>
+        <span class="wave">👋</span>
+      </h2>
+      <p class="subtitle">You're doing great — keep the quest going!</p>
+
+      <!-- Level & XP -->
+      <div class="level-section">
+        <div class="level-badge">
+          <span>⭐</span>
+          <span>Level <span id="user-level">1</span></span>
+        </div>
+        <div class="xp-bar-container">
+          <div class="xp-label">
+            <span>XP Progress</span>
+            <span id="xp-text">250 / 500</span>
+          </div>
+          <div class="xp-bar">
+            <div class="xp-bar-fill" id="xp-bar-fill"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">📅</span>
+        <div class="stat-value" id="stat-days">1</div>
+        <div class="stat-label">Days Active</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">⚔️</span>
+        <div class="stat-value" id="stat-quests">3</div>
+        <div class="stat-label">Quests Completed</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🏆</span>
+        <div class="stat-value" id="stat-badges">2</div>
+        <div class="stat-label">Badges Earned</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🔥</span>
+        <div class="stat-value" id="stat-streak">1</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <h3 class="section-title">🎖️ Achievements</h3>
+    <div class="achievements-grid">
+      <div class="achievement-card unlocked">
+        <span class="badge-icon">🌟</span>
+        <div class="badge-name">First Login</div>
+        <div class="badge-desc">Logged in for the first time</div>
+      </div>
+      <div class="achievement-card unlocked">
+        <span class="badge-icon">📝</span>
+        <div class="badge-name">Account Created</div>
+        <div class="badge-desc">Successfully registered</div>
+      </div>
+      <div class="achievement-card locked">
+        <span class="badge-icon">🔥</span>
+        <div class="badge-name">On Fire</div>
+        <div class="badge-desc">7-day login streak</div>
+      </div>
+      <div class="achievement-card locked">
+        <span class="badge-icon">🗡️</span>
+        <div class="badge-name">Quest Master</div>
+        <div class="badge-desc">Complete 10 quests</div>
+      </div>
+      <div class="achievement-card locked">
+        <span class="badge-icon">👑</span>
+        <div class="badge-name">Legendary</div>
+        <div class="badge-desc">Reach Level 10</div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="activity-section">
+      <h3 class="section-title">📜 Recent Activity</h3>
+      <ul class="activity-list" id="activity-list">
+        <li class="activity-item">
+          <div class="activity-icon green">🌟</div>
+          <div class="activity-text">
+            <strong>Achievement Unlocked!</strong>
+            <p>You earned the "First Login" badge</p>
+          </div>
+          <span class="activity-time">Just now</span>
+        </li>
+        <li class="activity-item">
+          <div class="activity-icon purple">🚀</div>
+          <div class="activity-text">
+            <strong>Quest Started</strong>
+            <p>Your adventure has begun!</p>
+          </div>
+          <span class="activity-time" id="activity-joined">Today</span>
+        </li>
+        <li class="activity-item">
+          <div class="activity-icon orange">📝</div>
+          <div class="activity-text">
+            <strong>Account Created</strong>
+            <p>Welcome to the realm, hero!</p>
+          </div>
+          <span class="activity-time" id="activity-created">Today</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
