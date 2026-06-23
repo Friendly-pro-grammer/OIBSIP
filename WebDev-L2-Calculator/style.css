@@ -1,0 +1,341 @@
+/* ───────────────────────────────────────────
+   Design Tokens
+   ─────────────────────────────────────────── */
+:root {
+  /* Palette */
+  --clr-bg:            #0a0a12;
+  --clr-surface:       rgba(255, 255, 255, 0.04);
+  --clr-surface-hover: rgba(255, 255, 255, 0.08);
+  --clr-border:        rgba(255, 255, 255, 0.06);
+  --clr-text:          #e8eaf0;
+  --clr-text-muted:    #6b7085;
+  --clr-accent:        #8b5cf6;
+  --clr-accent-glow:   rgba(139, 92, 246, 0.35);
+  --clr-operator:      #6366f1;
+  --clr-operator-glow: rgba(99, 102, 241, 0.30);
+  --clr-equals-start:  #8b5cf6;
+  --clr-equals-end:    #ec4899;
+  --clr-equals-glow:   rgba(236, 72, 153, 0.30);
+  --clr-error:         #f43f5e;
+
+  /* Orb colors */
+  --orb-1: rgba(139, 92, 246, 0.18);
+  --orb-2: rgba(236, 72, 153, 0.14);
+  --orb-3: rgba(59, 130, 246, 0.12);
+
+  /* Dimensions */
+  --calc-width:  360px;
+  --btn-size:    72px;
+  --gap:         10px;
+  --radius-sm:   12px;
+  --radius-md:   18px;
+  --radius-lg:   24px;
+
+  /* Typography */
+  --ff: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ───────────────────────────────────────────
+   Reset & Base
+   ─────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--ff);
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ───────────────────────────────────────────
+   Animated Background Orbs
+   ─────────────────────────────────────────── */
+.bg-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.bg-orb--1 {
+  width: 500px;
+  height: 500px;
+  background: var(--orb-1);
+  top: -120px;
+  left: -80px;
+  animation: orbFloat1 14s ease-in-out infinite alternate;
+}
+
+.bg-orb--2 {
+  width: 400px;
+  height: 400px;
+  background: var(--orb-2);
+  bottom: -100px;
+  right: -60px;
+  animation: orbFloat2 18s ease-in-out infinite alternate;
+}
+
+.bg-orb--3 {
+  width: 350px;
+  height: 350px;
+  background: var(--orb-3);
+  top: 50%;
+  left: 60%;
+  animation: orbFloat3 16s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloat1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(60px, 80px) scale(1.15); }
+}
+
+@keyframes orbFloat2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-50px, -70px) scale(1.1); }
+}
+
+@keyframes orbFloat3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-80px, 40px) scale(1.2); }
+}
+
+/* ───────────────────────────────────────────
+   Calculator Container (Glassmorphism)
+   ─────────────────────────────────────────── */
+.calculator {
+  position: relative;
+  z-index: 1;
+  width: var(--calc-width);
+  background: rgba(15, 15, 28, 0.70);
+  backdrop-filter: blur(40px) saturate(1.4);
+  -webkit-backdrop-filter: blur(40px) saturate(1.4);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.4),
+    0 0 80px rgba(139, 92, 246, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ───────────────────────────────────────────
+   Display
+   ─────────────────────────────────────────── */
+.display {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: 20px 22px 18px;
+  margin-bottom: 16px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.display:focus-within,
+.display:hover {
+  border-color: rgba(139, 92, 246, 0.18);
+}
+
+.display__expression {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--clr-text-muted);
+  min-height: 1.2em;
+  word-break: break-all;
+  text-align: right;
+  transition: color 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.display__current {
+  font-size: 2.4rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  word-break: break-all;
+  text-align: right;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.display__current.error {
+  color: var(--clr-error);
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+/* ───────────────────────────────────────────
+   Button Grid (CSS Grid)
+   ─────────────────────────────────────────── */
+.btn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+}
+
+/* ───────────────────────────────────────────
+   Buttons — Base
+   ─────────────────────────────────────────── */
+.btn {
+  position: relative;
+  height: var(--btn-size);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  font-family: var(--ff);
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.12s ease,
+    box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+/* Ripple pseudo-element */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(255,255,255,0.15), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.btn:hover {
+  background: var(--clr-surface-hover);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn:active {
+  transform: scale(0.94);
+}
+
+.btn:active::after {
+  opacity: 1;
+  transition: opacity 0s;
+}
+
+/* ── Accent Buttons (C, ⌫, %) ── */
+.btn--accent {
+  color: var(--clr-accent);
+  font-weight: 600;
+}
+
+.btn--accent:hover {
+  background: rgba(139, 92, 246, 0.10);
+  border-color: rgba(139, 92, 246, 0.20);
+  box-shadow: 0 0 20px var(--clr-accent-glow);
+}
+
+/* ── Operator Buttons ── */
+.btn--operator {
+  color: var(--clr-operator);
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.btn--operator:hover {
+  background: rgba(99, 102, 241, 0.10);
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 20px var(--clr-operator-glow);
+}
+
+.btn--operator.active {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 24px var(--clr-operator-glow);
+}
+
+/* ── Zero Button (spans two columns) ── */
+.btn--wide {
+  grid-column: span 2;
+}
+
+/* ── Equals Button ── */
+.btn--equals {
+  background: linear-gradient(135deg, var(--clr-equals-start), var(--clr-equals-end));
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 20px var(--clr-equals-glow);
+}
+
+.btn--equals:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 6px 28px rgba(236, 72, 153, 0.40);
+}
+
+.btn--equals:active {
+  filter: brightness(0.95);
+  transform: scale(0.94);
+}
+
+/* ───────────────────────────────────────────
+   Pop animation for display update
+   ─────────────────────────────────────────── */
+.display__current.pop {
+  animation: pop 0.15s ease;
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* ───────────────────────────────────────────
+   Responsive
+   ─────────────────────────────────────────── */
+@media (max-width: 420px) {
+  :root {
+    --calc-width: 94vw;
+    --btn-size: 62px;
+  }
+
+  .display__current {
+    font-size: 2rem;
+  }
+}
