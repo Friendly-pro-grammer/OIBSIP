@@ -1,0 +1,18 @@
+{
+  "name": "login-authentication-system",
+  "version": "1.0.0",
+  "description": "A gamified full-stack login authentication system with Node.js, Express, and JSON store",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["authentication", "login", "express", "nodejs"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.0",
+    "express-session": "^1.18.0"
+  }
+}
